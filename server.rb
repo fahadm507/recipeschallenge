@@ -43,9 +43,9 @@ def get_recipes_details(params)
   FROM recipes JOIN ingredients ON recipes.id = ingredients.recipe_id
   WHERE recipes.id = $1 '
   recipes_details = db_connection do |conn|
-    conn.exec(query,[params[:id]])
+    conn.exec_params(query,[params[:id]])
   end
-  @recipes_details
+  @recipes_details = recipes_details
 end
 
 #3.This route redirects the landing page to /recipes
@@ -62,11 +62,10 @@ end
 
 #4.A method that gets information about the recipes and render show page
 #to dipaly the output
-get 'recipes/:id' do
-  get_recipes_details(params) #retuns @recipes_details
+get '/recipes/:id' do
+  get_recipes_details(params)
 
-
-  erb :show
+  erb :'show'
 end
 
 
