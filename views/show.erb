@@ -1,12 +1,11 @@
 
+<button class="prev"><a href="/recipes">Back to recipes</a></button>
 <table>
-
   <tr>
     <th>Recipe Name</th>
     <th>Ingridents</th>
     <th>Description</th>
     <th>Instructions</th>
-
   </tr>
   <% @recipes_details.each do |detail| %>
   <tr>
@@ -14,7 +13,6 @@
     <td><%= detail['ingredient_name']%></td>
     <td><%= detail['description']%></td>
     <td><%= detail['instructions']%></td>
-
   </tr>
   <% end %>
 

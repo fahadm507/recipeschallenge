@@ -1,5 +1,9 @@
 
-
+<h3>List of Recipes</h3>
 <% @results.each do |result| %>
 <li><a href="<%="/recipes/#{result['id']}"%>"><%= result['name'] %></a></li>
+<% if @page !=1 %>
+  <a href="/recipes?page=<%= @page - 1%>"><button class="prev">back</button></a>
+  <%end%>
+  <a href="/recipes?page=<%= @page + 1%>"><button class="prev">Next</button></a>
 <% end %>
