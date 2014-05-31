@@ -1,0 +1,17 @@
+
+
+<table>
+  <% @recipes_details.each do |detail| %>
+  <tr>
+    <th>Recipe Name</th>
+    <th>Description</th>
+    <th>Instructions</th>
+    <th>Ingridents</th>
+  </tr>
+  <tr>
+    <td><%= detail['name']%></td>
+    <td><%= detail['description']%></td>
+    <td><%= detail['instructions']%></td>
+    <td><%= detail['ingridient_name']%></td>
+  </tr>
+</table>>

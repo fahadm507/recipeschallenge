@@ -1,5 +1,5 @@
 
 
 <% @results.each do |result| %>
-<li><a href="#"><%= result['name'] %></a></li>
+<li><a href="<%="/recipes/#{result['id']}"%>"><%= result['name'] %></a></li>
 <% end %>

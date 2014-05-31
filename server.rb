@@ -2,6 +2,12 @@ require 'sinatra'
 require 'pry'
 require 'pg'
 
+
+
+
+
+
+
 =begin
   Visiting /recipes/:id will show the details for a recipe with the given ID.
   The page must include the recipe name, description, and instructions.
@@ -9,7 +15,7 @@ require 'pg'
   Setup
 =end
 
-#A building a sinatra application that allows users to view a list of recipes
+#building a sinatra application that allows users to view a list of recipes
 #and make a choice of the ones that seems appetizing.
 
 #1. Connecting to the database
@@ -22,13 +28,24 @@ def db_connection
   end
 end
 
-#2.Get list of all the recipes in the databse, sorted alphabetically.
+#2.Getting a list of all the recipes in the databse, sorted alphabetically.
 def get_recipes
-  query = 'SELECT name FROM recipes'
+  query = 'SELECT recipes.name, recipes.id FROM recipes'
   results= db_connection do |conn|
     conn.exec(query)
   end
   @results = results.sort_by {|result| result['name']}
+end
+
+def get_recipes_details(params)
+  query = 'SELECT recipes.name, recipes.id, recipes.description,
+  recipes.instructions,ingredients.name AS ingredient_name
+  FROM recipes JOIN ingredients ON recipes.id = ingredients.recipe_id
+  WHERE recipes.id = $1 '
+  recipes_details = db_connection do |conn|
+    conn.exec(query,[params[:id]])
+  end
+  @recipes_details
 end
 
 #3.This route redirects the landing page to /recipes
@@ -46,10 +63,12 @@ end
 #4.A method that gets information about the recipes and render show page
 #to dipaly the output
 get 'recipes/:id' do
-  @recipes == params[:id]
+  get_recipes_details(params) #retuns @recipes_details
+
 
   erb :show
 end
+
 
 
 
