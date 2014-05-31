@@ -14,7 +14,7 @@ end
 
 #2.Getting a list of all the recipes in the databse, sorted alphabetically.
 def get_recipes
-  query = 'SELECT recipes.name, recipes.id FROM recipes LIMIT 20 OFFSET #{offset}'
+  query = 'SELECT recipes.name, recipes.id FROM recipes LIMIT 20 OFFSET "#{offset}'
   results= db_connection do |conn|
     conn.exec(query)
   end
@@ -45,7 +45,13 @@ get '/recipes' do
   @page = @page.to_i
   offset = (@page-1) * 20
 
-  get_recipes
+  query = "SELECT recipes.name, recipes.id FROM recipes LIMIT 20 OFFSET #{offset}"
+  results= db_connection do |conn|
+    conn.exec(query)
+  end
+  @results = results.sort_by {|result| result['name']}
+
+
 
   erb :index
 end
